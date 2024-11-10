@@ -1,0 +1,38 @@
+{
+  "name": "03-solid",
+  "version": "1.0.0",
+  "description": "GymPass Style App.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch bin/server.ts",
+    "start": "node build/bin/server.js",
+    "build": "tsup --ignore-watch node_modules app bin start config --out-dir build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "22.9.0",
+    "@typescript-eslint/eslint-plugin": "8.13.0",
+    "@typescript-eslint/parser": "8.13.0",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-import-resolver-alias": "1.1.2",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-n": "17.13.1",
+    "eslint-plugin-prettier": "5.2.1",
+    "eslint-plugin-promise": "7.1.0",
+    "prettier": "3.3.3",
+    "prisma": "5.22.0",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3",
+    "vitest": "2.1.4"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "dotenv": "16.4.5",
+    "fastify": "5.1.0",
+    "zod": "3.23.8"
+  }
+}

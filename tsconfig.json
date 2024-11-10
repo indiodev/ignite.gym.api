@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@config/*": ["./config/*"],
+			"@database/*": ["./database/*"],
+			// "@app/*": ["./app/*"],
+			"@start/*": ["./start/*"],
+			"@routes/*": ["./app/routes/*"],
+			"@dto/*": ["./app/data-transfer-objects/*"],
+			"@validators/*": ["./app/validators/*"],
+			"@middlewares/*": ["./app/middlewares/*"],
+		},
+		"rootDirs": ["./app"],
+		"typeRoots": ["./types"],
+		"target": "ES2023",
+		"module": "commonjs",
+		"rootDir": "./",
+		"outDir": "./build",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true
+	},
+	"include": ["app", "test", "config", "database", "start", "types", "bin"]
+}
