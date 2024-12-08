@@ -10,6 +10,13 @@
 			"@dto/*": ["./app/data-transfer-objects/*"],
 			"@validators/*": ["./app/validators/*"],
 			"@middlewares/*": ["./app/middlewares/*"],
+			"@controllers/*": ["./app/controllers/*"],
+			"@useCases/*": ["./app/use-cases/*"],
+			"@repositories/*": ["./app/repositories/*"],
+			"@exceptions/*": ["./app/exceptions/*"],
+			"@factories/*": ["./app/factories/*"],
+			"@utils/*": ["./app/utils/*"],
+
 		},
 		"rootDirs": ["./app"],
 		"typeRoots": ["./types"],
@@ -22,5 +29,5 @@
 		"strict": true,
 		"skipLibCheck": true
 	},
-	"include": ["app", "test", "config", "database", "start", "types", "bin"]
+	"include": ["app", "bin", "config","database", "start", "types", "tests"]
 }
