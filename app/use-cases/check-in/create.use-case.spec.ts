@@ -36,8 +36,10 @@ describe('Create Check In Use Case', () => {
 		const { checkIn } = await sut.execute({
 			gym_id: 'gym-01',
 			user_id: 'user-01',
-			user_latitude: -27.2092052,
-			user_longitude: -49.6401091,
+			user: {
+				latitude: -27.2092052,
+				longitude: -49.6401091,
+			},
 		});
 
 		expect(checkIn.id).toEqual(expect.any(String));
@@ -49,16 +51,20 @@ describe('Create Check In Use Case', () => {
 		await sut.execute({
 			gym_id: 'gym-01',
 			user_id: 'user-01',
-			user_latitude: -27.2092052,
-			user_longitude: -49.6401091,
+			user: {
+				latitude: -27.2092052,
+				longitude: -49.6401091,
+			},
 		});
 
 		await expect(() =>
 			sut.execute({
 				gym_id: 'gym-01',
 				user_id: 'user-01',
-				user_latitude: -27.2092052,
-				user_longitude: -49.6401091,
+				user: {
+					latitude: -27.2092052,
+					longitude: -49.6401091,
+				},
 			}),
 		).rejects.toBeInstanceOf(ApplicationException);
 	});
@@ -69,8 +75,10 @@ describe('Create Check In Use Case', () => {
 		await sut.execute({
 			gym_id: 'gym-01',
 			user_id: 'user-01',
-			user_latitude: -27.2092052,
-			user_longitude: -49.6401091,
+			user: {
+				latitude: -27.2092052,
+				longitude: -49.6401091,
+			},
 		});
 
 		vi.setSystemTime(new Date(2024, 0, 21, 8, 0, 0));
@@ -78,8 +86,10 @@ describe('Create Check In Use Case', () => {
 		const { checkIn } = await sut.execute({
 			gym_id: 'gym-01',
 			user_id: 'user-01',
-			user_latitude: -27.2092052,
-			user_longitude: -49.6401091,
+			user: {
+				latitude: -27.2092052,
+				longitude: -49.6401091,
+			},
 		});
 
 		expect(checkIn.id).toEqual(expect.any(String));
@@ -99,8 +109,10 @@ describe('Create Check In Use Case', () => {
 			sut.execute({
 				gym_id: 'gym-02',
 				user_id: 'user-01',
-				user_latitude: -27.2092052,
-				user_longitude: -49.6401091,
+				user: {
+					latitude: -27.2092052,
+					longitude: -49.6401091,
+				},
 			}),
 		).rejects.toBeInstanceOf(ApplicationException);
 	});

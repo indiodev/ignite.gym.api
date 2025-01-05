@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import type { CheckIn } from '@prisma/client';
 
+import type { CheckInCreateDTO } from '@dto/check-in.dto';
 import { ApplicationException } from '@exceptions/application.exception';
 import type { CheckInRepository } from '@repositories/interfaces/check-in.repository';
 import type { GymRepository } from '@repositories/interfaces/gym.repository';
@@ -12,20 +13,15 @@ export class CheckInCreateUseCase {
 		private gymRepository: GymRepository,
 	) {}
 
-	async execute(payload: {
-		gym_id: string;
-		user_id: string;
-		user_latitude: number;
-		user_longitude: number;
-	}): Promise<{ checkIn: CheckIn }> {
+	async execute(payload: CheckInCreateDTO): Promise<{ checkIn: CheckIn }> {
 		const gym = await this.gymRepository.findById(payload.gym_id);
 
 		if (!gym) throw ApplicationException.NotFound('Gym not found');
 
 		const distance = getDistanceBetweenCoordinates(
 			{
-				latitude: payload.user_latitude,
-				longitude: payload.user_longitude,
+				latitude: payload.user.latitude,
+				longitude: payload.user.longitude,
 			},
 			{
 				latitude: gym.latitude.toNumber(),
@@ -36,15 +32,16 @@ export class CheckInCreateUseCase {
 		const MAX_DISTANCE_IN_KM = 0.1;
 
 		if (distance > MAX_DISTANCE_IN_KM)
-			throw ApplicationException.BadRequest('Gym is too far');
+			throw ApplicationException.BadRequest('Maximum distance exceeded');
 
-		const checkInOnSameDate = await this.checkInRepository.findByUserIdOnDate({
-			date: new Date(),
-			user_id: payload.user_id,
-		});
+		const checkInOnSameDate =
+			await this.checkInRepository.findByUserIdOnSameDate({
+				date: new Date(),
+				user_id: payload.user_id,
+			});
 
 		if (checkInOnSameDate)
-			throw ApplicationException.Conflict('User already checked in');
+			throw ApplicationException.Conflict('Maximum check ins per day');
 
 		const checkIn = await this.checkInRepository.create(payload);
 		return { checkIn };
