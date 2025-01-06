@@ -2,9 +2,9 @@ import type { Gym, Prisma } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import { randomUUID } from 'crypto';
 
+import type { CoordinateDTO } from '@dto/coordinate.dto';
 import type { GymSearchDTO } from '@dto/gym.dto';
 import type { GymRepository } from '@repositories/interfaces/gym.repository';
-import type { Coordinate } from '@utils/get-distance-between-coordinates.util';
 import { getDistanceBetweenCoordinates } from '@utils/get-distance-between-coordinates.util';
 
 export class InMemoryGymRepository implements GymRepository {
@@ -31,18 +31,18 @@ export class InMemoryGymRepository implements GymRepository {
 
 	async searchMany(payload: GymSearchDTO): Promise<Gym[]> {
 		const gyms = this.items
-			.filter((gym) => gym.title.includes(payload.query))
+			.filter((gym) => gym.title.includes(payload.q))
 			.slice((payload.page - 1) * 20, payload.page * 20);
 		return gyms;
 	}
 
-	async findManyNearby(payload: Coordinate): Promise<Gym[]> {
+	async findManyNearby(payload: CoordinateDTO): Promise<Gym[]> {
 		function nearby(gym: Gym): boolean {
-			const from: Coordinate = {
+			const from: CoordinateDTO = {
 				latitude: payload.latitude,
 				longitude: payload.longitude,
 			};
-			const to: Coordinate = {
+			const to: CoordinateDTO = {
 				latitude: gym.latitude.toNumber(),
 				longitude: gym.longitude.toNumber(),
 			};

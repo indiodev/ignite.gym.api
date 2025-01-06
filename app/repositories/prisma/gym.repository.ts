@@ -1,9 +1,9 @@
 import type { Gym, Prisma } from '@prisma/client';
 
 import { prisma } from '@config/database';
+import type { CoordinateDTO } from '@dto/coordinate.dto';
 import type { GymSearchDTO } from '@dto/gym.dto';
 import type { GymRepository } from '@repositories/interfaces/gym.repository';
-import type { Coordinate } from '@utils/get-distance-between-coordinates.util';
 
 export class PrismaGymRepository implements GymRepository {
 	async create(data: Prisma.GymCreateInput): Promise<Gym> {
@@ -18,7 +18,7 @@ export class PrismaGymRepository implements GymRepository {
 		const gyms = await prisma.gym.findMany({
 			where: {
 				title: {
-					contains: payload.query,
+					contains: payload.q,
 				},
 			},
 			take: 20,
@@ -26,7 +26,7 @@ export class PrismaGymRepository implements GymRepository {
 		});
 		return gyms;
 	}
-	async findManyNearby(payload: Coordinate): Promise<Gym[]> {
+	async findManyNearby(payload: CoordinateDTO): Promise<Gym[]> {
 		const gyms = await prisma.$queryRaw<Gym[]>/*sql*/ `
       SELECT * FROM gyms
       WHERE ( 6371 * acos( cos( radians(${payload.latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${payload.longitude}) ) + sin( radians(${payload.latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
@@ -35,4 +35,3 @@ export class PrismaGymRepository implements GymRepository {
 		return gyms;
 	}
 }
-// WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10

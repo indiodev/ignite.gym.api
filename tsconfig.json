@@ -16,7 +16,7 @@
 			"@exceptions/*": ["./app/exceptions/*"],
 			"@factories/*": ["./app/factories/*"],
 			"@utils/*": ["./app/utils/*"],
-
+			
 		},
 		"rootDirs": ["./app"],
 		"typeRoots": ["./types"],

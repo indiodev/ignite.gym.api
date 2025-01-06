@@ -4,6 +4,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
 	test: {
 		environment: 'node',
+		environmentMatchGlobs: [['app/controllers/**', 'prisma']],
 		alias: {
 			'@config': resolve(__dirname, './config'),
 			'@database': resolve(__dirname, './database'),

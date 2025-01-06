@@ -1,26 +1,20 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 
-import { AuthenticationSignInSchemaValidator } from '@dto/authentication.dto';
 import { ApplicationException } from '@exceptions/application.exception';
-import { SignInUseCaseFactory } from '@factories/authentication/sign-in.factory';
+import { UserProfileUseCaseFactory } from '@factories/user/profile.factory';
 
-export async function AuthenticationSignInController(
+export async function UserProfileController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ): Promise<void> {
-	const payload = AuthenticationSignInSchemaValidator.parse(request.body);
-
 	try {
-		const useCase = SignInUseCaseFactory();
-		const { user } = await useCase.execute(payload);
-		const token = await response.jwtSign(
-			{},
-			{
-				sub: user.id,
-			},
-		);
+		const useCase = UserProfileUseCaseFactory();
+		const { user } = await useCase.execute({ id: request?.user?.sub });
 		return response.status(200).send({
-			token,
+			user: {
+				...user,
+				password_hash: undefined,
+			},
 		});
 	} catch (error) {
 		if (error instanceof ApplicationException) {

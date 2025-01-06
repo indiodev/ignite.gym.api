@@ -1,11 +1,8 @@
-export interface Coordinate {
-	latitude: number;
-	longitude: number;
-}
+import type { CoordinateDTO } from '@dto/coordinate.dto';
 
 export function getDistanceBetweenCoordinates(
-	from: Coordinate,
-	to: Coordinate,
+	from: CoordinateDTO,
+	to: CoordinateDTO,
 ): number {
 	if (from.latitude === to.latitude && from.longitude === to.longitude)
 		return 0;

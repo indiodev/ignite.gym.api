@@ -37,13 +37,16 @@ export class CheckInCreateUseCase {
 		const checkInOnSameDate =
 			await this.checkInRepository.findByUserIdOnSameDate({
 				date: new Date(),
-				user_id: payload.user_id,
+				user_id: payload.user.id,
 			});
 
 		if (checkInOnSameDate)
 			throw ApplicationException.Conflict('Maximum check ins per day');
 
-		const checkIn = await this.checkInRepository.create(payload);
+		const checkIn = await this.checkInRepository.create({
+			gym_id: payload.gym_id,
+			user_id: payload.user.id,
+		});
 		return { checkIn };
 	}
 }

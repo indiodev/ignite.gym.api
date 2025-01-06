@@ -58,7 +58,8 @@
           ["@repositories", "./app/repositories"],
           ["@exceptions", "./app/exceptions"],
           ["@factories", "./app/factories"],
-          ["@utils", "./app/utils"]
+          ["@utils", "./app/utils"],
+          ["@middlewares", "./app/middlewares"]
         ],
         "extensions": [".ts",".js", ".json"]
       }
