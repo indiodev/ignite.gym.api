@@ -1,32 +1,26 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 
-import { AuthenticationSignInSchemaValidator } from '@dto/authentication.dto';
 import { ApplicationException } from '@exceptions/application.exception';
-import { SignInUseCaseFactory } from '@factories/authentication/sign-in.factory';
 
-export async function AuthenticationSignInController(
+export async function AuthenticationRefreshTokenController(
 	request: FastifyRequest,
 	response: FastifyReply,
 ): Promise<void> {
-	const payload = AuthenticationSignInSchemaValidator.parse(request.body);
+	await request.jwtVerify({ onlyCookie: true });
+
+	const { role } = request.user;
 
 	try {
-		const useCase = SignInUseCaseFactory();
-		const { user } = await useCase.execute(payload);
 		const token = await response.jwtSign(
+			{ role },
 			{
-				role: user.role,
-			},
-			{
-				sub: user.id,
+				sub: request.user.sub,
 			},
 		);
 		const refreshToken = await response.jwtSign(
+			{ role },
 			{
-				role: user.role,
-			},
-			{
-				sub: user.id,
+				sub: request.user.sub,
 				expiresIn: '7d',
 			},
 		);

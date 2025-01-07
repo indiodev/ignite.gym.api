@@ -1,7 +1,7 @@
 import { AuthenticationRouter } from '@routes/authentication.route';
 import { CheckInRouter } from '@routes/check-in.route';
 import { GymRouter } from '@routes/gym.route';
-import { UserRouter } from '@routes/user.route';
+import { UserRouter } from '@routes/user/user.route';
 
 import { kernel } from './kernel';
 

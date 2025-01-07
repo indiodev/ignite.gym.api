@@ -9,6 +9,8 @@ const kernel = fastify();
 kernel.register(fastifyCookie);
 kernel.register(fastifyJwt, {
 	secret: Env.JWT_SECRET,
+	sign: { expiresIn: '10m' },
+	cookie: { signed: false, cookieName: 'refreshToken' },
 });
 
 export { kernel };
