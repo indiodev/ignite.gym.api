@@ -28,6 +28,8 @@ jobs:
           node-version: 22
           cache: 'npm'
       - run: npm ci
+      - run: npm run test:create-prisma-environment
+      - run: npm run test:install-prisma-environment
       - run: npm run test:e2e
         env:
           JWT_SECRET: test-secret
